@@ -102,12 +102,13 @@ async function showInstruction(id) {
         const modal = document.getElementById('cacaoModal');
         const content = document.getElementById('modalBody');
         
-        // ТОЛЬКО инструкция, без лишней информации
+        // ТОЛЬКО СПОСОБ ПРИГОТОВЛЕНИЯ - БЕЗ НАЗВАНИЯ И ВСЕГО ОСТАЛЬНОГО
         content.innerHTML = `
-            <h3>${cacao.name}</h3>
-            <ol>
-                ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
-            </ol>
+            <div class="instructions-only">
+                <ol>
+                    ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
+                </ol>
+            </div>
         `;
         
         modal.style.display = 'flex';

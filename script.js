@@ -17,7 +17,11 @@ async function loadCacaos() {
         const data = await response.json();
         allCacaos = data.cacaos;
         
-        displayCacaos(allCacaos);
+        // Разделяем на группы
+        const cacaoWithPrep = allCacaos.filter(c => c.hasPreparation && c.preparation.length > 0);
+        const cacaoWithoutPrep = allCacaos.filter(c => !c.hasPreparation || c.preparation.length === 0);
+        
+        displayCacaos(cacaoWithPrep, cacaoWithoutPrep);
         updateCounter(allCacaos.length);
         setupSearch();
         setupTheme();
@@ -34,37 +38,54 @@ async function loadCacaos() {
     }
 }
 
-// ===== ОТОБРАЖЕНИЕ КАРТОЧЕК =====
-function displayCacaos(cacaos) {
+// ===== ОТОБРАЖЕНИЕ КАКАО С ГРУППИРОВКОЙ =====
+function displayCacaos(withPrep, withoutPrep) {
     const container = document.getElementById('cacaoGrid');
-    
-    if (!cacaos || cacaos.length === 0) {
-        container.innerHTML = `
-            <div class="no-results">
-                <i class="fas fa-search"></i>
-                <p>Какао не найдены</p>
-                <p style="margin-top: 10px; font-size: 1rem;">Попробуйте изменить запрос</p>
-            </div>
-        `;
-        updateCounter(0);
-        return;
-    }
-    
     container.innerHTML = '';
     
-    cacaos.forEach((cacao, index) => {
-        const card = document.createElement('div');
-        card.className = 'cacao-card';
-        card.style.animationDelay = `${index * 0.1}s`;
-        card.innerHTML = createCardHTML(cacao);
-        container.appendChild(card);
-    });
+    // Первая группа: с инструкциями
+    if (withPrep.length > 0) {
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'group-header';
+        groupHeader.innerHTML = `
+            <h3 class="group-title">С ИНСТРУКЦИЕЙ ПРИГОТОВЛЕНИЯ</h3>
+            <div class="group-count">${withPrep.length} сортов</div>
+        `;
+        container.appendChild(groupHeader);
+        
+        withPrep.forEach((cacao, index) => {
+            const card = document.createElement('div');
+            card.className = 'cacao-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.innerHTML = createCardHTML(cacao, true);
+            container.appendChild(card);
+        });
+    }
     
-    updateCounter(cacaos.length);
+    // Вторая группа: без инструкций
+    if (withoutPrep.length > 0) {
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'group-header no-prep-header';
+        groupHeader.innerHTML = `
+            <h3 class="group-title">ДЛЯ ОПЫТА</h3>
+            <div class="group-count">${withoutPrep.length} сортов</div>
+        `;
+        container.appendChild(groupHeader);
+        
+        withoutPrep.forEach((cacao, index) => {
+            const card = document.createElement('div');
+            card.className = 'cacao-card no-prep-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.innerHTML = createCardHTML(cacao, false);
+            container.appendChild(card);
+        });
+    }
+    
+    updateCounter(allCacaos.length);
 }
 
 // ===== СОЗДАНИЕ HTML ДЛЯ КАРТОЧКИ =====
-function createCardHTML(cacao) {
+function createCardHTML(cacao, hasButton) {
     const characteristicsHTML = Object.entries(cacao.characteristics || {})
         .map(([key, value]) => `
             <div class="char-item">
@@ -76,7 +97,27 @@ function createCardHTML(cacao) {
             </div>
         `).join('');
     
+    // Добавляем категорию, если есть
+    const categoryHTML = cacao.category ? `
+        <div class="cacao-category">
+            <span class="category-tag">${cacao.category}</span>
+        </div>
+    ` : '';
+    
+    // Кнопка показывается только если есть инструкция
+    const buttonHTML = hasButton ? `
+        <button class="show-btn" onclick="showInstruction(${cacao.id})">
+            Инструкция приготовления
+        </button>
+    ` : `
+        <div class="no-prep-note">
+            <i class="fas fa-mortar-pestle"></i>
+            <span>Спросите у бариста о способе приготовления</span>
+        </div>
+    `;
+    
     return `
+        ${categoryHTML}
         <h4>${cacao.name}</h4>
         <p>${cacao.description}</p>
         <p class="taste">${cacao.taste}</p>
@@ -87,9 +128,7 @@ function createCardHTML(cacao) {
             </div>
         ` : ''}
         
-        <button class="show-btn" onclick="showInstruction(${cacao.id})">
-            Инструкция приготовления
-        </button>
+        ${buttonHTML}
     `;
 }
 
@@ -97,12 +136,11 @@ function createCardHTML(cacao) {
 async function showInstruction(id) {
     try {
         const cacao = allCacaos.find(c => c.id === id);
-        if (!cacao) return;
+        if (!cacao || !cacao.preparation || cacao.preparation.length === 0) return;
         
         const modal = document.getElementById('cacaoModal');
         const content = document.getElementById('modalBody');
         
-        // ТОЛЬКО СПОСОБ ПРИГОТОВЛЕНИЯ - БЕЗ НАЗВАНИЯ И ВСЕГО ОСТАЛЬНОГО
         content.innerHTML = `
             <div class="instructions-only">
                 <ol>
@@ -130,7 +168,9 @@ function setupSearch() {
         const searchTerm = this.value.toLowerCase().trim();
         
         if (searchTerm === '') {
-            displayCacaos(allCacaos);
+            const withPrep = allCacaos.filter(c => c.hasPreparation && c.preparation.length > 0);
+            const withoutPrep = allCacaos.filter(c => !c.hasPreparation || c.preparation.length === 0);
+            displayCacaos(withPrep, withoutPrep);
             clearBtn.style.display = 'none';
             return;
         }
@@ -141,17 +181,23 @@ function setupSearch() {
             cacao.name.toLowerCase().includes(searchTerm) ||
             cacao.description.toLowerCase().includes(searchTerm) ||
             cacao.taste.toLowerCase().includes(searchTerm) ||
+            (cacao.category && cacao.category.toLowerCase().includes(searchTerm)) ||
             Object.keys(cacao.characteristics || {}).some(key => 
                 key.toLowerCase().includes(searchTerm)
             )
         );
         
-        displayCacaos(filtered);
+        const filteredWithPrep = filtered.filter(c => c.hasPreparation && c.preparation.length > 0);
+        const filteredWithoutPrep = filtered.filter(c => !c.hasPreparation || c.preparation.length === 0);
+        
+        displayCacaos(filteredWithPrep, filteredWithoutPrep);
     });
     
     clearBtn.addEventListener('click', function() {
         searchInput.value = '';
-        displayCacaos(allCacaos);
+        const withPrep = allCacaos.filter(c => c.hasPreparation && c.preparation.length > 0);
+        const withoutPrep = allCacaos.filter(c => !c.hasPreparation || c.preparation.length === 0);
+        displayCacaos(withPrep, withoutPrep);
         clearBtn.style.display = 'none';
         searchInput.focus();
     });
@@ -180,7 +226,6 @@ function setupTheme() {
     const themeIcon = themeToggle.querySelector('.theme-icon');
     const themeText = themeToggle.querySelector('.theme-text');
     
-    // Проверяем сохранённую тему
     const savedTheme = localStorage.getItem('cacao-theme');
     if (savedTheme) {
         currentTheme = savedTheme;

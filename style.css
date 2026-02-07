@@ -1,82 +1,387 @@
-/* ===== ГРУППИРОВКА КАКАО ===== */
-.group-header {
+/* ОСНОВНЫЕ СТИЛИ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* ТЁМНАЯ ТЕМА */
+    --bg-primary: #3C2A21;
+    --bg-card: #1A120B;
+    --text-primary: #E5E5CB;
+    --text-secondary: #D5CEA3;
+    --accent: #D5CEA3;
+    --border: #5D4037;
+}
+
+[data-theme="light"] {
+    /* СВЕТЛАЯ ТЕМА */
+    --bg-primary: #F5F5DC;
+    --bg-card: #FFFFFF;
+    --text-primary: #3C2A21;
+    --text-secondary: #5D4037;
+    --accent: #8B4513;
+    --border: #D7CCC8;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 16px;
+    min-height: 100vh;
+}
+
+/* ШАПКА */
+.header-top {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px 0;
+}
+
+.theme-btn {
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.theme-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.header-main {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+}
+
+h1 {
+    color: var(--accent);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+h2 {
+    color: var(--text-secondary);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* ПОИСК */
+.search-section {
+    margin-bottom: 30px;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    color: var(--text-secondary);
+}
+
+#searchInput {
+    width: 100%;
+    padding: 15px 50px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+#searchInput:focus {
+    outline: none;
+}
+
+.clear-btn {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* КАТАЛОГ */
+.catalog-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 40px 0 25px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--border);
     padding-bottom: 15px;
-    border-bottom: 2px solid var(--accent-primary);
-    grid-column: 1 / -1;
 }
 
-.no-prep-header {
-    border-bottom: 2px solid var(--text-tertiary);
-    margin-top: 50px;
+.catalog-header h3 {
+    font-size: 1.6rem;
+    color: var(--text-secondary);
 }
 
-.group-title {
-    color: var(--accent-primary);
-    font-size: 1.4rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
-.no-prep-header .group-title {
-    color: var(--text-tertiary);
-}
-
-.group-count {
-    color: var(--text-tertiary);
-    font-size: 0.95rem;
+.catalog-count {
+    color: var(--accent);
     background: var(--bg-card);
     padding: 8px 16px;
     border-radius: 20px;
-    border: 1px solid var(--border-light);
+    border: 1px solid var(--border);
+    font-weight: 600;
 }
 
-/* ===== КАРТОЧКИ БЕЗ ИНСТРУКЦИЙ ===== */
-.no-prep-card {
-    border-style: dashed;
-    border-color: var(--text-tertiary);
-    opacity: 0.9;
+/* СЕТКА КАКАО */
+.cacao-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
 }
 
-.no-prep-card:hover {
-    border-color: var(--text-tertiary);
+.cacao-card {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.3s;
+}
+
+.cacao-card:hover {
     transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
-.no-prep-note {
+.cacao-card h4 {
+    color: var(--accent);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.cacao-card p {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+}
+
+.taste {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 1rem;
+    margin: 15px 0;
+    padding-left: 15px;
+    border-left: 3px solid var(--accent);
+}
+
+/* ХАРАКТЕРИСТИКИ */
+.characteristics {
+    margin: 20px 0;
+}
+
+.char-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.char-name {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    width: 120px;
+}
+
+.char-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 0 15px;
+    overflow: hidden;
+}
+
+.char-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.char-value {
+    color: var(--accent);
+    font-weight: 600;
+    width: 40px;
+    text-align: right;
+}
+
+/* КНОПКИ */
+.show-btn {
+    background: var(--accent);
+    color: var(--bg-card);
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.show-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* МОДАЛЬНОЕ ОКНО */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 100%;
+    border: 2px solid var(--accent);
+    position: relative;
+}
+
+.close-modal {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    color: var(--text-secondary);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 15px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    color: var(--text-tertiary);
-    font-size: 0.95rem;
-    margin-top: 25px;
-    padding: 15px;
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-    border-left: 4px solid var(--text-tertiary);
-}
-
-.no-prep-note i {
+    justify-content: center;
     font-size: 1.2rem;
-    opacity: 0.7;
 }
 
-/* ===== КАТЕГОРИИ ===== */
-.cacao-category {
+.close-modal:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.instructions-only ol {
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.instructions-only li {
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* ПОДВАЛ */
+.footer {
+    background: var(--bg-card);
+    padding: 40px 0 30px;
+    margin-top: 50px;
+    border-top: 2px solid var(--border);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-section h4 {
+    color: var(--accent);
+    font-size: 1.1rem;
     margin-bottom: 15px;
 }
 
-.category-tag {
-    display: inline-block;
-    background: var(--accent-secondary);
-    color: var(--bg-card);
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+.footer-section p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-bottom p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* АДАПТИВ */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .cacao-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+    
+    .catalog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
 }

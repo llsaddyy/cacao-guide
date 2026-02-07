@@ -3,113 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cult Coffee — Инструкции по какао</title>
+    <title>КАКАО БАР — инструкции по приготовлению</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Дополнительные стили */
-        .search-box {
-            max-width: 500px;
-            margin: 20px auto;
-        }
-        
-        .search-box input {
-            width: 100%;
-            padding: 12px 20px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            color: white;
-            font-size: 16px;
-        }
-        
-        .cacao-card {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
-        
-        .cacao-card:hover {
-            transform: translateY(-5px);
-            border-color: #D4AF37;
-        }
-        
-        .show-btn {
-            background: #D4AF37;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 15px;
-            font-weight: bold;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background: #1a1a1a;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 500px;
-            width: 90%;
-            border: 1px solid #D4AF37;
-        }
-        
-        .close-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- ШАПКА САЙТА -->
     <header>
-        <h1>cult coffee shop</h1>
-        <p>Лаборатория идеального какао</p>
-    </header>
-    
-    <main>
-        <div class="search-box">
-            <input type="text" id="search" placeholder="Поиск какао...">
+        <div class="header-top">
+            <div class="theme-switcher">
+                <button id="themeToggle" class="theme-btn">
+                    <span class="theme-icon">☀️</span>
+                    <span class="theme-text">Светлая тема</span>
+                </button>
+            </div>
         </div>
         
-        <div class="catalog-header">
-    <h2>Наши какао</h2>
-    <div class="catalog-count">5 сортов</div>
-</div>
-        <div id="cacaoList">
-            <!-- Какао загружаются сюда -->
+        <div class="header-main">
+            <h1>КАКАО БАР</h1>
+            <p class="subtitle">инструкции по приготовлению</p>
+            <div class="header-divider"></div>
+        </div>
+    </header>
+
+    <!-- ПОИСК -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="Найти сорт какао...">
+                <button id="clearSearch" class="clear-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="main">
+        <div class="container">
+            <div class="catalog-header">
+                <h2>НАША КОЛЛЕКЦИЯ</h2>
+                <div class="catalog-count">5 сортов</div>
+            </div>
+            
+            <div class="cacao-grid" id="cacaoGrid">
+                <!-- Карточки будут загружены через JavaScript -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Загружаем коллекцию какао...</p>
+                </div>
+            </div>
         </div>
     </main>
-    
-    <!-- Модальное окно с инструкцией -->
-    <div id="instructionModal" class="modal">
+
+    <!-- МОДАЛЬНОЕ ОКНО С ИНСТРУКЦИЕЙ -->
+    <div class="modal" id="cacaoModal">
         <div class="modal-content">
-            <button class="close-btn" id="closeModal">×</button>
-            <div id="modalContent">
-                <!-- Инструкция загружается сюда -->
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- Контент будет загружен динамически -->
             </div>
         </div>
     </div>
-    
+
+    <!-- ПОДВАЛ -->
+    <footer class="footer">
+        <div class="container">
+            <p>Отсканируйте QR-код для доступа к инструкциям</p>
+            <p class="footer-note">КАКАО БАР © 2024</p>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>

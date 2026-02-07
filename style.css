@@ -13,9 +13,8 @@
     --border-light: #6D4C41;
     --shadow-color: rgba(0, 0, 0, 0.4);
     --shadow-light: rgba(0, 0, 0, 0.2);
-    --overlay-color: rgba(26, 18, 11, 0.95);
-    --success-color: #A5D6A7;
-    --warning-color: #FFCC80;
+    --overlay-color: rgba(26, 18, 11, 0.97);
+    --footer-bg: #1A120B;
 }
 
 [data-theme="light"] {
@@ -32,9 +31,8 @@
     --border-light: #E8E0D9;
     --shadow-color: rgba(140, 110, 90, 0.15);
     --shadow-light: rgba(140, 110, 90, 0.08);
-    --overlay-color: rgba(245, 245, 220, 0.95);
-    --success-color: #388E3C;
-    --warning-color: #F57C00;
+    --overlay-color: rgba(245, 245, 220, 0.97);
+    --footer-bg: #FFFFFF;
 }
 
 * {
@@ -43,13 +41,26 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 18px; /* Увеличиваем базовый размер шрифта на телефонах */
+    }
+}
+
 body {
-    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-family: 'Inter', sans-serif;
     background-color: var(--bg-primary);
     color: var(--text-primary);
-    line-height: 1.7;
+    line-height: 1.6;
     min-height: 100vh;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1rem; /* Базовый размер */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -62,7 +73,7 @@ body {
 .header-top {
     display: flex;
     justify-content: flex-end;
-    padding: 20px 0;
+    padding: 25px 0 15px;
 }
 
 .theme-switcher {
@@ -74,13 +85,13 @@ body {
     color: var(--text-secondary);
     border: 2px solid var(--border-color);
     border-radius: 30px;
-    padding: 12px 24px;
+    padding: 14px 26px;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 12px;
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1rem; /* Увеличено */
     font-weight: 500;
     transition: all 0.4s ease;
     backdrop-filter: blur(10px);
@@ -95,7 +106,7 @@ body {
 }
 
 .theme-icon {
-    font-size: 1.3rem;
+    font-size: 1.4rem; /* Увеличено */
     transition: transform 0.4s ease;
 }
 
@@ -105,34 +116,32 @@ body {
 
 .header-main {
     text-align: center;
-    margin-bottom: 50px;
-    padding-bottom: 30px;
+    margin-bottom: 40px;
+    padding-bottom: 25px;
     position: relative;
 }
 
 h1 {
     color: var(--accent-primary);
-    font-size: 4rem;
-    margin-bottom: 15px;
-    letter-spacing: 4px;
+    font-size: 2.8rem; /* Уменьшено, но всё равно крупное */
+    margin-bottom: 10px;
+    letter-spacing: 2px;
     font-weight: 700;
     text-transform: uppercase;
-    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
     line-height: 1.1;
 }
 
-.subtitle {
-    color: var(--text-tertiary);
-    font-size: 1.3rem;
-    letter-spacing: 2px;
-    text-transform: lowercase;
-    font-weight: 300;
+h2 {
+    color: var(--text-secondary);
+    font-size: 2rem; /* Увеличено */
+    letter-spacing: 1px;
+    font-weight: 400;
     margin-bottom: 25px;
 }
 
 .header-divider {
-    width: 200px;
-    height: 2px;
+    width: 180px;
+    height: 3px;
     background: linear-gradient(90deg, 
         transparent, 
         var(--accent-secondary), 
@@ -142,19 +151,19 @@ h1 {
 
 /* ===== ПОИСК ===== */
 .search-section {
-    padding: 20px 0 40px;
+    padding: 10px 0 35px;
 }
 
 .search-box {
-    max-width: 600px;
+    max-width: 650px;
     margin: 0 auto;
     position: relative;
     display: flex;
     align-items: center;
     background: var(--bg-card);
     border: 2px solid var(--border-color);
-    border-radius: 15px;
-    padding: 5px;
+    border-radius: 16px;
+    padding: 8px;
     transition: all 0.4s ease;
     box-shadow: 0 4px 15px var(--shadow-light);
 }
@@ -167,18 +176,18 @@ h1 {
 
 .search-box i {
     position: absolute;
-    left: 20px;
+    left: 25px;
     color: var(--text-tertiary);
-    font-size: 1.2rem;
+    font-size: 1.3rem; /* Увеличено */
 }
 
 #searchInput {
     width: 100%;
-    padding: 18px 60px 18px 50px;
+    padding: 20px 70px 20px 60px; /* Увеличено */
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Увеличено */
     font-family: 'Inter', sans-serif;
     transition: all 0.3s ease;
 }
@@ -190,23 +199,25 @@ h1 {
 #searchInput::placeholder {
     color: var(--text-tertiary);
     opacity: 0.7;
+    font-size: 1.1rem; /* Увеличено */
 }
 
 .clear-btn {
     position: absolute;
-    right: 15px;
+    right: 20px;
     background: transparent;
     border: none;
     color: var(--text-tertiary);
     cursor: pointer;
-    padding: 8px;
+    padding: 10px;
     border-radius: 50%;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem; /* Увеличено */
 }
 
 .clear-btn:hover {
@@ -216,41 +227,41 @@ h1 {
 
 /* ===== КАТАЛОГ ===== */
 .main {
-    padding: 30px 0 60px;
+    padding: 20px 0 50px;
 }
 
 .catalog-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 35px;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 20px;
 }
 
-.catalog-header h2 {
-    font-size: 2.2rem;
+.catalog-header h3 {
+    font-size: 1.8rem; /* Увеличено */
     font-weight: 600;
     color: var(--text-secondary);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .catalog-count {
     color: var(--accent-primary);
-    font-size: 1rem;
+    font-size: 1.1rem; /* Увеличено */
     background: var(--bg-card);
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 25px;
-    border: 1px solid var(--border-light);
+    border: 2px solid var(--border-light);
     font-family: 'Inter', sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 /* ===== СЕТКА КАКАО ===== */
 .cacao-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 30px;
     opacity: 0;
     animation: fadeIn 0.8s ease forwards;
@@ -264,13 +275,13 @@ h1 {
 
 .cacao-card {
     background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 18px;
     padding: 30px;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 6px 20px var(--shadow-light);
+    box-shadow: 0 8px 25px var(--shadow-light);
     cursor: pointer;
     height: 100%;
     display: flex;
@@ -283,7 +294,7 @@ h1 {
     top: 0;
     left: 0;
     right: 0;
-    height: 4px;
+    height: 5px;
     background: linear-gradient(90deg, 
         var(--accent-primary), 
         var(--accent-secondary));
@@ -294,27 +305,27 @@ h1 {
 .cacao-card:hover {
     transform: translateY(-10px) scale(1.02);
     border-color: var(--accent-primary);
-    box-shadow: 0 15px 40px var(--shadow-color);
+    box-shadow: 0 20px 50px var(--shadow-color);
 }
 
 .cacao-card:hover::before {
     opacity: 1;
 }
 
-.cacao-card h3 {
+.cacao-card h4 {
     color: var(--accent-primary);
-    font-size: 1.6rem;
-    margin-bottom: 15px;
+    font-size: 1.5rem; /* Увеличено */
+    margin-bottom: 18px;
     font-weight: 600;
     line-height: 1.3;
     padding-bottom: 15px;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
 }
 
 .cacao-card p {
     color: var(--text-secondary);
-    margin-bottom: 15px;
-    font-size: 1.05rem;
+    margin-bottom: 18px;
+    font-size: 1.1rem; /* Увеличено */
     line-height: 1.6;
     flex-grow: 1;
 }
@@ -322,38 +333,39 @@ h1 {
 .cacao-card .taste {
     color: var(--text-tertiary);
     font-style: italic;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    padding-left: 15px;
+    font-size: 1.05rem; /* Увеличено */
+    margin-bottom: 25px;
+    padding-left: 18px;
     border-left: 3px solid var(--accent-secondary);
 }
 
 /* ===== ХАРАКТЕРИСТИКИ ===== */
 .characteristics {
-    margin: 20px 0;
+    margin: 22px 0;
 }
 
 .char-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .char-name {
     color: var(--text-tertiary);
-    font-size: 0.9rem;
+    font-size: 1rem; /* Увеличено */
     font-family: 'Inter', sans-serif;
-    width: 120px;
+    width: 140px;
+    font-weight: 500;
 }
 
 .char-bar {
     flex-grow: 1;
-    height: 8px;
+    height: 10px; /* Увеличено */
     background: var(--border-light);
-    border-radius: 4px;
+    border-radius: 5px;
     overflow: hidden;
-    margin: 0 15px;
+    margin: 0 20px;
     position: relative;
 }
 
@@ -362,7 +374,7 @@ h1 {
     background: linear-gradient(90deg, 
         var(--accent-primary), 
         var(--accent-secondary));
-    border-radius: 4px;
+    border-radius: 5px;
     transition: width 1s ease-out;
     position: relative;
     overflow: hidden;
@@ -389,11 +401,11 @@ h1 {
 
 .char-value {
     color: var(--accent-primary);
-    font-weight: 600;
+    font-weight: 700;
     font-family: 'Inter', sans-serif;
-    width: 30px;
+    width: 40px;
     text-align: right;
-    font-size: 0.9rem;
+    font-size: 1rem; /* Увеличено */
 }
 
 /* ===== КНОПКА ИНСТРУКЦИИ ===== */
@@ -403,12 +415,12 @@ h1 {
         var(--accent-secondary));
     color: var(--bg-card);
     border: none;
-    padding: 16px 30px;
-    border-radius: 12px;
+    padding: 18px 35px; /* Увеличено */
+    border-radius: 14px;
     cursor: pointer;
     margin-top: 25px;
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: 1.1rem; /* Увеличено */
     font-weight: 600;
     width: 100%;
     transition: all 0.4s ease;
@@ -434,7 +446,7 @@ h1 {
 
 .show-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 .show-btn:hover::before {
@@ -445,7 +457,7 @@ h1 {
     transform: translateY(-1px);
 }
 
-/* ===== МОДАЛЬНОЕ ОКНО ===== */
+/* ===== МОДАЛЬНОЕ ОКНО ТОЛЬКО С ИНСТРУКЦИЕЙ ===== */
 .modal {
     display: none;
     position: fixed;
@@ -468,9 +480,9 @@ h1 {
 
 .modal-content {
     background: var(--bg-card);
-    padding: 40px;
+    padding: 35px 30px;
     border-radius: 20px;
-    max-width: 700px;
+    max-width: 500px;
     width: 100%;
     border: 2px solid var(--accent-primary);
     position: relative;
@@ -489,8 +501,8 @@ h1 {
     background: var(--bg-card);
     border: 2px solid var(--border-color);
     color: var(--text-tertiary);
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
@@ -499,7 +511,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.3rem; /* Увеличено */
     transition: all 0.3s ease;
     z-index: 10;
 }
@@ -515,38 +527,24 @@ h1 {
     padding-top: 10px;
 }
 
-.modal-body h2 {
-    color: var(--accent-primary);
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-    padding-right: 50px;
-    line-height: 1.2;
-}
-
-.modal-body p {
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-    line-height: 1.7;
-}
-
 .modal-body h3 {
-    color: var(--text-primary);
-    font-size: 1.5rem;
-    margin: 30px 0 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--border-light);
+    color: var(--accent-primary);
+    font-size: 1.8rem; /* Увеличено */
+    margin-bottom: 25px;
+    padding-right: 50px;
+    line-height: 1.3;
+    text-align: center;
 }
 
 .modal-body ol {
-    margin-left: 25px;
+    margin-left: 20px;
     margin-bottom: 30px;
 }
 
 .modal-body li {
     color: var(--text-secondary);
-    margin-bottom: 12px;
-    font-size: 1.05rem;
+    margin-bottom: 18px; /* Увеличено */
+    font-size: 1.15rem; /* Увеличено */
     line-height: 1.6;
     padding-left: 10px;
 }
@@ -554,76 +552,82 @@ h1 {
 .modal-body li::marker {
     color: var(--accent-primary);
     font-weight: bold;
-}
-
-/* ===== СОВЕТ ОТ БАРИСТЫ ===== */
-.tip-box {
-    background: linear-gradient(135deg, 
-        rgba(213, 206, 163, 0.1), 
-        rgba(181, 168, 134, 0.05));
-    border-left: 4px solid var(--accent-primary);
-    padding: 25px;
-    margin-top: 35px;
-    border-radius: 0 12px 12px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.tip-box::before {
-    content: '💡';
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 1.5rem;
-    opacity: 0.3;
-}
-
-.tip-box p {
-    color: var(--accent-primary);
-    font-style: italic;
-    margin: 0;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    padding-left: 30px;
+    font-size: 1.2rem; /* Увеличено */
 }
 
 /* ===== ПОДВАЛ ===== */
 .footer {
+    background: var(--footer-bg);
+    padding: 50px 0 30px;
+    border-top: 3px solid var(--border-color);
+    margin-top: 50px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-section h4 {
+    color: var(--accent-primary);
+    font-size: 1.2rem; /* Увеличено */
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.footer-section p {
+    color: var(--text-secondary);
+    font-size: 1.1rem; /* Увеличено */
+    line-height: 1.7;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-section i {
+    color: var(--accent-secondary);
+    font-size: 1.1rem;
+    width: 24px;
+}
+
+.address-detail, .hours-detail {
+    color: var(--text-tertiary) !important;
+    font-size: 1rem !important;
+    margin-left: 36px;
+    margin-top: -5px;
+}
+
+.footer-bottom {
     text-align: center;
-    padding: 40px 0 30px;
+    padding-top: 30px;
     border-top: 1px solid var(--border-color);
-    margin-top: 40px;
 }
 
-.footer p {
+.footer-bottom p {
     color: var(--text-tertiary);
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-.footer-note {
-    color: var(--accent-secondary) !important;
-    font-size: 0.9rem !important;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-top: 20px !important;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
 }
 
 /* ===== ЛОАДИНГ ===== */
 .loading {
     grid-column: 1 / -1;
     text-align: center;
-    padding: 60px;
+    padding: 70px;
 }
 
 .spinner {
-    border: 4px solid var(--border-light);
-    border-top: 4px solid var(--accent-primary);
+    border: 5px solid var(--border-light);
+    border-top: 5px solid var(--accent-primary);
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 70px; /* Увеличено */
+    height: 70px; /* Увеличено */
     animation: spin 1s linear infinite;
-    margin: 0 auto 25px;
+    margin: 0 auto 30px;
 }
 
 @keyframes spin {
@@ -633,24 +637,47 @@ h1 {
 
 .loading p {
     color: var(--text-tertiary);
-    font-size: 1.1rem;
+    font-size: 1.2rem; /* Увеличено */
 }
 
-/* ===== АДАПТИВ ===== */
+/* ===== ПУСТОЙ РЕЗУЛЬТАТ ПОИСКА ===== */
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 70px;
+    color: var(--text-tertiary);
+    font-size: 1.2rem; /* Увеличено */
+}
+
+.no-results i {
+    font-size: 3.5rem; /* Увеличено */
+    margin-bottom: 25px;
+    opacity: 0.5;
+}
+
+/* ===== АДАПТИВ ДЛЯ ТЕЛЕФОНОВ ===== */
 @media (max-width: 768px) {
     body {
         padding: 15px;
     }
     
     h1 {
-        font-size: 2.8rem;
-        letter-spacing: 2px;
+        font-size: 2.2rem;
+        letter-spacing: 1px;
+    }
+    
+    h2 {
+        font-size: 1.6rem;
     }
     
     .catalog-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 15px;
+    }
+    
+    .catalog-header h3 {
+        font-size: 1.6rem;
     }
     
     .cacao-grid {
@@ -662,46 +689,68 @@ h1 {
         padding: 25px;
     }
     
-    .modal-content {
-        padding: 30px 25px;
+    .cacao-card h4 {
+        font-size: 1.4rem;
     }
     
-    .modal-body h2 {
-        font-size: 1.8rem;
+    .modal-content {
+        padding: 30px 25px;
+        max-width: 90%;
+    }
+    
+    .modal-body h3 {
+        font-size: 1.6rem;
         padding-right: 40px;
     }
     
+    .modal-body li {
+        font-size: 1.1rem;
+    }
+    
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .footer-section h4 {
+        font-size: 1.3rem;
+    }
+    
+    .footer-section p {
+        font-size: 1.15rem;
+    }
+    
     .theme-btn {
-        padding: 10px 18px;
-        font-size: 0.9rem;
+        padding: 12px 20px;
+        font-size: 1rem;
     }
 }
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 2.2rem;
+        font-size: 1.9rem;
     }
     
-    .subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .search-box {
-        padding: 3px;
-    }
-    
-    #searchInput {
-        padding: 15px 50px 15px 45px;
-        font-size: 1rem;
-    }
-    
-    .cacao-card h3 {
+    h2 {
         font-size: 1.4rem;
     }
     
+    .search-box {
+        padding: 6px;
+    }
+    
+    #searchInput {
+        padding: 18px 60px 18px 55px;
+        font-size: 1.15rem;
+    }
+    
+    .cacao-card h4 {
+        font-size: 1.3rem;
+    }
+    
     .show-btn {
-        padding: 14px 20px;
-        font-size: 0.95rem;
+        padding: 16px 25px;
+        font-size: 1.05rem;
     }
     
     .theme-btn .theme-text {
@@ -709,29 +758,23 @@ h1 {
     }
     
     .theme-btn {
-        padding: 12px;
-        width: 50px;
-        height: 50px;
+        padding: 14px;
+        width: 55px;
+        height: 55px;
         justify-content: center;
     }
     
     .theme-icon {
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
     }
-}
-
-/* ===== ПУСТОЙ РЕЗУЛЬТАТ ПОИСКА ===== */
-.no-results {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px;
-    color: var(--text-tertiary);
-    font-size: 1.1rem;
-}
-
-.no-results i {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    opacity: 0.5;
+    
+    .char-name {
+        font-size: 0.95rem;
+        width: 120px;
+    }
+    
+    .char-bar {
+        margin: 0 15px;
+    }
 }

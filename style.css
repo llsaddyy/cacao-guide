@@ -777,4 +777,50 @@ h2 {
     .char-bar {
         margin: 0 15px;
     }
+/* ===== СТИЛИ ТОЛЬКО ДЛЯ ИНСТРУКЦИИ ===== */
+.instructions-only {
+    padding: 20px 0;
 }
+
+.instructions-only ol {
+    margin-left: 0;
+    padding-left: 25px;
+}
+
+.instructions-only li {
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    font-size: 1.3rem;
+    line-height: 1.7;
+    padding-left: 10px;
+    position: relative;
+    list-style-type: none;
+    counter-increment: step-counter;
+}
+
+.instructions-only li::before {
+    content: counter(step-counter) ".";
+    color: var(--accent-primary);
+    font-weight: 700;
+    font-size: 1.4rem;
+    position: absolute;
+    left: -25px;
+    top: 0;
+}
+
+.instructions-only li:last-child {
+    color: var(--accent-secondary);
+    font-weight: 600;
+    font-style: italic;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 2px solid var(--border-light);
+}
+
+/* Уменьшаем размер модального окна для инструкций */
+.modal-content.instructions-modal {
+    max-width: 450px;
+    padding: 40px 35px;
+}
+}
+

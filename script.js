@@ -1,7 +1,10 @@
-// ===== НАСТРОЙКА ПРИ ЗАГРУЗКЕ =====
+// ===== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ =====
+let allCacaos = [];
+
+// ===== ОСНОВНАЯ ЗАГРУЗКА =====
 document.addEventListener('DOMContentLoaded', function() {
     loadCacaos();
-    setupModalClose();
+    setupModal();
     setupTheme();
     setupSearch();
 });
@@ -9,25 +12,28 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== ЗАГРУЗКА ДАННЫХ =====
 async function loadCacaos() {
     try {
-        const response = await fetch('data.json');
+        // Показываем загрузку
+        document.getElementById('cacaoGrid').innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Загружаем коллекцию какао...</p>
+            </div>
+        `;
         
-        if (!response.ok) {
-            throw new Error('Не удалось загрузить данные');
-        }
+        // Загружаем данные
+        const response = await fetch('data.json');
+        if (!response.ok) throw new Error('Ошибка загрузки данных');
         
         const data = await response.json();
+        allCacaos = data.cacaos || [];
         
-        // Проверяем, что данные есть
-        if (!data.cacaos || !Array.isArray(data.cacaos)) {
-            throw new Error('Некорректный формат данных');
-        }
-        
-        displayCacaos(data.cacaos);
+        // Отображаем какао
+        displayCacaos(allCacaos);
         
     } catch (error) {
-        console.error('Ошибка загрузки какао:', error);
+        console.error('Ошибка:', error);
         document.getElementById('cacaoGrid').innerHTML = `
-            <div class="error-message">
+            <div style="text-align: center; padding: 60px; color: var(--text-tertiary);">
                 <p>Не удалось загрузить коллекцию какао</p>
                 <p>Попробуйте обновить страницу</p>
             </div>
@@ -35,145 +41,116 @@ async function loadCacaos() {
     }
 }
 
-// ===== ОТОБРАЖЕНИЕ КАКАО С ГРУППИРОВКОЙ =====
+// ===== ОТОБРАЖЕНИЕ КАКАО =====
 function displayCacaos(cacaos) {
     const container = document.getElementById('cacaoGrid');
-    
-    // Очищаем контейнер
     container.innerHTML = '';
     
-    // Проверяем, что есть что показывать
     if (!cacaos || cacaos.length === 0) {
-        container.innerHTML = '<p class="no-results">Какао не найдены</p>';
+        container.innerHTML = '<p style="text-align: center; color: var(--text-tertiary);">Какао не найдены</p>';
+        updateCounter(0);
         return;
     }
     
-    // Группируем какао (с защитой от отсутствия type)
-    const hotChocolate = cacaos.filter(c => c.type && c.type === "горячий шоколад");
-    const pieces = cacaos.filter(c => c.type && c.type === "кусочки");
+    // Группируем
+    const hotChocolate = cacaos.filter(c => c.type === "горячий шоколад");
+    const pieces = cacaos.filter(c => c.type === "кусочки");
     
-    // Показываем горячий шоколад
+    // Горячий шоколад
     if (hotChocolate.length > 0) {
-        // Заголовок группы
-        const groupHeader = document.createElement('div');
-        groupHeader.className = 'group-header';
-        groupHeader.innerHTML = `
+        const header = document.createElement('div');
+        header.className = 'group-header';
+        header.innerHTML = `
             <h3 class="group-title">ГОРЯЧИЙ ШОКОЛАД</h3>
             <div class="group-count">${hotChocolate.length} сортов</div>
         `;
-        container.appendChild(groupHeader);
+        container.appendChild(header);
         
-        // Карточки горячего шоколада
         hotChocolate.forEach(cacao => {
-            const card = document.createElement('div');
-            card.className = 'cacao-card';
-            card.innerHTML = createCardHTML(cacao);
-            container.appendChild(card);
+            container.appendChild(createCard(cacao));
         });
     }
     
-    // Показываем кусочки
+    // Кусочки
     if (pieces.length > 0) {
-        // Заголовок группы
-        const groupHeader = document.createElement('div');
-        groupHeader.className = 'group-header pieces-header';
-        groupHeader.innerHTML = `
+        const header = document.createElement('div');
+        header.className = 'group-header pieces-header';
+        header.innerHTML = `
             <h3 class="group-title">В КУСОЧКАХ</h3>
             <div class="group-count">${pieces.length} сортов</div>
         `;
-        container.appendChild(groupHeader);
+        container.appendChild(header);
         
-        // Карточки кусочков
         pieces.forEach(cacao => {
-            const card = document.createElement('div');
-            card.className = 'cacao-card pieces-card';
-            card.innerHTML = createCardHTML(cacao);
+            const card = createCard(cacao);
+            card.classList.add('pieces-card');
             container.appendChild(card);
         });
     }
     
-    // Обновляем общий счётчик
     updateCounter(cacaos.length);
 }
 
 // ===== СОЗДАНИЕ КАРТОЧКИ =====
-function createCardHTML(cacao) {
-    // Проверяем наличие данных
-    const name = cacao.name || 'Без названия';
-    const description = cacao.description || '';
-    const taste = cacao.taste || '';
+function createCard(cacao) {
+    const card = document.createElement('div');
+    card.className = 'cacao-card';
     
-    // Характеристики (с защитой)
-    let characteristicsHTML = '';
-    if (cacao.characteristics && typeof cacao.characteristics === 'object') {
-        characteristicsHTML = Object.entries(cacao.characteristics)
-            .map(([key, value]) => {
-                const numValue = Number(value) || 0;
-                return `
-                    <div class="char-item">
-                        <span class="char-name">${key}</span>
-                        <div class="char-bar">
-                            <div class="char-fill" style="width: ${numValue * 20}%"></div>
-                        </div>
-                        <span class="char-value">${numValue}/5</span>
+    // Характеристики
+    let charsHTML = '';
+    if (cacao.characteristics) {
+        charsHTML = Object.entries(cacao.characteristics)
+            .map(([key, value]) => `
+                <div class="char-item">
+                    <span class="char-name">${key}</span>
+                    <div class="char-bar">
+                        <div class="char-fill" style="width: ${value * 20}%"></div>
                     </div>
-                `;
-            })
-            .join('');
+                    <span class="char-value">${value}/5</span>
+                </div>
+            `).join('');
     }
     
-    // Определяем тип кнопки
-    const hasPreparation = cacao.preparation && Array.isArray(cacao.preparation) && cacao.preparation.length > 0;
-    const isPieces = cacao.type === 'кусочки';
-    
+    // Кнопка
     let buttonHTML = '';
-    if (isPieces) {
+    if (cacao.type === "кусочки") {
         buttonHTML = '<div class="no-prep-btn">Спросите у бариста</div>';
-    } else if (hasPreparation) {
+    } else if (cacao.preparation && cacao.preparation.length > 0) {
         buttonHTML = `<button class="show-btn" onclick="showInstruction(${cacao.id})">Инструкция по приготовлению</button>`;
     } else {
         buttonHTML = '<div class="no-prep-btn">Инструкция уточняется</div>';
     }
     
-    // Собираем карточку
-    return `
-        <h4>${name}</h4>
-        <p>${description}</p>
-        ${taste ? `<p class="taste">${taste}</p>` : ''}
-        ${characteristicsHTML ? `<div class="characteristics">${characteristicsHTML}</div>` : ''}
+    card.innerHTML = `
+        <h4>${cacao.name}</h4>
+        <p>${cacao.description}</p>
+        ${cacao.taste ? `<p class="taste">${cacao.taste}</p>` : ''}
+        ${charsHTML ? `<div class="characteristics">${charsHTML}</div>` : ''}
         ${buttonHTML}
     `;
+    
+    return card;
 }
 
 // ===== ПОКАЗ ИНСТРУКЦИИ =====
-async function showInstruction(id) {
-    try {
-        const response = await fetch('data.json');
-        const data = await response.json();
-        const cacao = data.cacaos.find(c => c.id === id);
-        
-        if (!cacao || !cacao.preparation || !Array.isArray(cacao.preparation)) {
-            return;
-        }
-        
-        const modal = document.getElementById('cacaoModal');
-        const content = document.getElementById('modalBody');
-        
-        content.innerHTML = `
-            <div class="instructions-only">
-                <h3>${cacao.name || ''}</h3>
-                <ol>
-                    ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
-                </ol>
-            </div>
-        `;
-        
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        
-    } catch (error) {
-        console.error('Ошибка показа инструкции:', error);
-    }
+function showInstruction(id) {
+    const cacao = allCacaos.find(c => c.id === id);
+    if (!cacao || !cacao.preparation) return;
+    
+    const modal = document.getElementById('cacaoModal');
+    const content = document.getElementById('modalBody');
+    
+    content.innerHTML = `
+        <div class="instructions-only">
+            <h3>${cacao.name}</h3>
+            <ol>
+                ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
+            </ol>
+        </div>
+    `;
+    
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 }
 
 // ===== ПОИСК =====
@@ -183,25 +160,11 @@ function setupSearch() {
     
     if (!searchInput) return;
     
-    let allCacaos = [];
-    
-    // Загружаем данные для поиска
-    fetch('data.json')
-        .then(response => response.json())
-        .then(data => {
-            allCacaos = data.cacaos || [];
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки для поиска:', error);
-        });
-    
     searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
+        const term = this.value.toLowerCase().trim();
         
-        if (!allCacaos.length) return;
-        
-        if (searchTerm === '') {
-            loadCacaos(); // Перезагружаем оригинальные данные
+        if (term === '') {
+            displayCacaos(allCacaos);
             clearBtn.style.display = 'none';
             return;
         }
@@ -209,14 +172,14 @@ function setupSearch() {
         clearBtn.style.display = 'flex';
         
         const filtered = allCacaos.filter(cacao => {
-            const searchIn = [
+            const searchText = [
                 cacao.name || '',
                 cacao.description || '',
                 cacao.taste || '',
                 cacao.type || ''
             ].join(' ').toLowerCase();
             
-            return searchIn.includes(searchTerm);
+            return searchText.includes(term);
         });
         
         displayCacaos(filtered);
@@ -224,35 +187,25 @@ function setupSearch() {
     
     clearBtn.addEventListener('click', function() {
         searchInput.value = '';
-        loadCacaos();
+        displayCacaos(allCacaos);
         clearBtn.style.display = 'none';
         searchInput.focus();
     });
-    
-    clearBtn.style.display = 'none';
-}
-
-// ===== ОБНОВЛЕНИЕ СЧЁТЧИКА =====
-function updateCounter(count) {
-    const counter = document.querySelector('.catalog-count');
-    if (counter) {
-        counter.textContent = `${count} сортов`;
-    }
 }
 
 // ===== ТЕМА =====
 function setupTheme() {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
     
     // Восстанавливаем сохранённую тему
-    const savedTheme = localStorage.getItem('cacao-theme');
-    if (savedTheme) {
-        document.body.setAttribute('data-theme', savedTheme);
-        updateThemeButton(savedTheme === 'light');
+    const saved = localStorage.getItem('cacao-theme');
+    if (saved) {
+        document.body.setAttribute('data-theme', saved);
+        updateThemeButton(saved === 'light');
     }
     
-    themeToggle.addEventListener('click', function() {
+    toggle.addEventListener('click', function() {
         const current = document.body.getAttribute('data-theme');
         const newTheme = current === 'dark' ? 'light' : 'dark';
         
@@ -263,18 +216,16 @@ function setupTheme() {
 }
 
 function updateThemeButton(isLight) {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
-    
-    const icon = themeToggle.querySelector('.theme-icon');
-    const text = themeToggle.querySelector('.theme-text');
+    const toggle = document.getElementById('themeToggle');
+    const icon = toggle.querySelector('.theme-icon');
+    const text = toggle.querySelector('.theme-text');
     
     if (icon) icon.textContent = isLight ? '🌙' : '☀️';
     if (text) text.textContent = isLight ? 'Тёмная тема' : 'Светлая тема';
 }
 
 // ===== МОДАЛЬНОЕ ОКНО =====
-function setupModalClose() {
+function setupModal() {
     const modal = document.getElementById('cacaoModal');
     const closeBtn = document.getElementById('closeModal');
     
@@ -298,4 +249,12 @@ function setupModalClose() {
             document.body.style.overflow = 'auto';
         }
     });
+}
+
+// ===== СЧЁТЧИК =====
+function updateCounter(count) {
+    const counter = document.getElementById('catalogCounter');
+    if (counter) {
+        counter.textContent = `${count} сортов`;
+    }
 }

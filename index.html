@@ -5,6 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cult Coffee — Инструкции по какао</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Дополнительные стили */
+        .search-box {
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .cacao-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .cacao-card:hover {
+            transform: translateY(-5px);
+            border-color: #D4AF37;
+        }
+        
+        .show-btn {
+            background: #D4AF37;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid #D4AF37;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -13,11 +87,25 @@
     </header>
     
     <main>
+        <div class="search-box">
+            <input type="text" id="search" placeholder="Поиск какао...">
+        </div>
+        
         <h2>Наши какао</h2>
         <div id="cacaoList">
-            <!-- Сюда загрузим какао -->
+            <!-- Какао загружаются сюда -->
         </div>
     </main>
+    
+    <!-- Модальное окно с инструкцией -->
+    <div id="instructionModal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeModal">×</button>
+            <div id="modalContent">
+                <!-- Инструкция загружается сюда -->
+            </div>
+        </div>
+    </div>
     
     <script src="script.js"></script>
 </body>

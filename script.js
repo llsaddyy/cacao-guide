@@ -28,7 +28,7 @@ async function loadCacaos() {
             <div class="no-results">
                 <i class="fas fa-exclamation-circle"></i>
                 <p>Не удалось загрузить коллекцию какао</p>
-                <p style="margin-top: 10px; font-size: 0.9rem;">Попробуйте обновить страницу</p>
+                <p style="margin-top: 10px; font-size: 1rem;">Попробуйте обновить страницу</p>
             </div>
         `;
     }
@@ -43,7 +43,7 @@ function displayCacaos(cacaos) {
             <div class="no-results">
                 <i class="fas fa-search"></i>
                 <p>Какао не найдены</p>
-                <p style="margin-top: 10px; font-size: 0.9rem;">Попробуйте изменить запрос</p>
+                <p style="margin-top: 10px; font-size: 1rem;">Попробуйте изменить запрос</p>
             </div>
         `;
         updateCounter(0);
@@ -77,7 +77,7 @@ function createCardHTML(cacao) {
         `).join('');
     
     return `
-        <h3>${cacao.name}</h3>
+        <h4>${cacao.name}</h4>
         <p>${cacao.description}</p>
         <p class="taste">${cacao.taste}</p>
         
@@ -93,7 +93,7 @@ function createCardHTML(cacao) {
     `;
 }
 
-// ===== ПОКАЗ ИНСТРУКЦИИ =====
+// ===== ПОКАЗ ТОЛЬКО ИНСТРУКЦИИ =====
 async function showInstruction(id) {
     try {
         const cacao = allCacaos.find(c => c.id === id);
@@ -102,40 +102,12 @@ async function showInstruction(id) {
         const modal = document.getElementById('cacaoModal');
         const content = document.getElementById('modalBody');
         
-        const characteristicsHTML = Object.entries(cacao.characteristics || {})
-            .map(([key, value]) => `
-                <div class="char-item">
-                    <span class="char-name">${key}</span>
-                    <div class="char-bar">
-                        <div class="char-fill" style="width: ${value * 20}%"></div>
-                    </div>
-                    <span class="char-value">${value}/5</span>
-                </div>
-            `).join('');
-        
+        // ТОЛЬКО инструкция, без лишней информации
         content.innerHTML = `
-            <h2>${cacao.name}</h2>
-            <p>${cacao.description}</p>
-            
-            <p><strong>Вкусовой профиль:</strong> ${cacao.taste}</p>
-            
-            ${characteristicsHTML ? `
-                <h3>Характеристики:</h3>
-                <div class="characteristics">
-                    ${characteristicsHTML}
-                </div>
-            ` : ''}
-            
-            <h3>Способ приготовления:</h3>
+            <h3>${cacao.name}</h3>
             <ol>
                 ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
             </ol>
-            
-            ${cacao.tip ? `
-                <div class="tip-box">
-                    <p>${cacao.tip}</p>
-                </div>
-            ` : ''}
         `;
         
         modal.style.display = 'flex';

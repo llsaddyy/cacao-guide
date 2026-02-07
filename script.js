@@ -1,4 +1,4 @@
-// Простой рабочий скрипт
+// Простой рабочий скрипт с группировкой
 let allCacaos = [];
 
 async function loadCacaos() {
@@ -18,12 +18,45 @@ function displayCacaos(cacaos) {
     const container = document.getElementById('cacaoGrid');
     container.innerHTML = '';
     
-    cacaos.forEach(cacao => {
-        const card = document.createElement('div');
-        card.className = 'cacao-card';
-        card.innerHTML = createCardHTML(cacao);
-        container.appendChild(card);
-    });
+    // Группируем по типу
+    const hotChocolate = cacaos.filter(c => c.type === "горячий шоколад");
+    const pieces = cacaos.filter(c => c.type === "кусочки");
+    
+    // Показываем горячий шоколад
+    if (hotChocolate.length > 0) {
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'group-header';
+        groupHeader.innerHTML = `
+            <h3 class="group-title">ГОРЯЧИЙ ШОКОЛАД</h3>
+            <div class="group-count">${hotChocolate.length} сортов</div>
+        `;
+        container.appendChild(groupHeader);
+        
+        hotChocolate.forEach(cacao => {
+            const card = document.createElement('div');
+            card.className = 'cacao-card';
+            card.innerHTML = createCardHTML(cacao);
+            container.appendChild(card);
+        });
+    }
+    
+    // Показываем кусочки
+    if (pieces.length > 0) {
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'group-header pieces-header';
+        groupHeader.innerHTML = `
+            <h3 class="group-title">В КУСОЧКАХ</h3>
+            <div class="group-count">${pieces.length} сортов</div>
+        `;
+        container.appendChild(groupHeader);
+        
+        pieces.forEach(cacao => {
+            const card = document.createElement('div');
+            card.className = 'cacao-card pieces-card';
+            card.innerHTML = createCardHTML(cacao);
+            container.appendChild(card);
+        });
+    }
 }
 
 function createCardHTML(cacao) {
@@ -40,9 +73,10 @@ function createCardHTML(cacao) {
             </div>
         `).join('');
     
+    // Разные кнопки в зависимости от наличия инструкции
     const buttonHTML = hasPrep ? 
-        `<button class="show-btn" onclick="showInstruction(${cacao.id})">Инструкция</button>` :
-        `<div class="no-prep">Спросите у бариста</div>`;
+        `<button class="show-btn" onclick="showInstruction(${cacao.id})">Инструкция по приготовлению</button>` :
+        `<div class="no-prep-btn">Спросите у бариста</div>`;
     
     return `
         <h4>${cacao.name}</h4>
@@ -55,13 +89,14 @@ function createCardHTML(cacao) {
 
 function showInstruction(id) {
     const cacao = allCacaos.find(c => c.id === id);
-    if (!cacao) return;
+    if (!cacao || !cacao.preparation || cacao.preparation.length === 0) return;
     
     const modal = document.getElementById('cacaoModal');
     const content = document.getElementById('modalBody');
     
     content.innerHTML = `
         <div class="instructions-only">
+            <h3>${cacao.name}</h3>
             <ol>
                 ${cacao.preparation.map(step => `<li>${step}</li>`).join('')}
             </ol>
@@ -87,7 +122,8 @@ function setupSearch() {
         const filtered = allCacaos.filter(c => 
             c.name.toLowerCase().includes(term) ||
             c.description.toLowerCase().includes(term) ||
-            c.taste.toLowerCase().includes(term)
+            c.taste.toLowerCase().includes(term) ||
+            c.type.toLowerCase().includes(term)
         );
         displayCacaos(filtered);
     });

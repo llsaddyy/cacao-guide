@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CULT COFFEE SHOP КАКАО БАР — инструкции по приготовлению</title>
+    <title>CULT COFFEE SHOP КАКАО БАР</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- ШАПКА САЙТА -->
-    <header>
+    <!-- ШАПКА -->
+    <header class="header">
         <div class="header-top">
-            <div class="theme-switcher">
-                <button id="themeToggle" class="theme-btn">
-                    <span class="theme-icon">☀️</span>
-                    <span class="theme-text">Светлая тема</span>
-                </button>
-            </div>
+            <button class="theme-btn" id="themeToggle">
+                <span class="theme-icon">☀️</span>
+                <span class="theme-text">Светлая тема</span>
+            </button>
         </div>
         
         <div class="header-main">
@@ -31,72 +29,66 @@
 
     <!-- ПОИСК -->
     <section class="search-section">
-        <div class="container">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Найти сорт какао...">
-                <button id="clearSearch" class="clear-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Найти сорт какао...">
+            <button class="clear-btn" id="clearSearch">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </section>
 
     <!-- ОСНОВНОЙ КОНТЕНТ -->
     <main class="main">
-        <div class="container">
-            <div class="catalog-header">
-                <h3>НАША КОЛЛЕКЦИЯ</h3>
-                <div class="catalog-count" id="catalogCounter">10 сортов</div>
-            </div>
-            
-            <div class="cacao-grid" id="cacaoGrid">
-                <!-- Карточки будут загружены через JavaScript -->
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Загружаем коллекцию какао...</p>
-                </div>
+        <div class="catalog-header">
+            <h3>НАША КОЛЛЕКЦИЯ</h3>
+            <div class="catalog-count" id="catalogCounter">10 сортов</div>
+        </div>
+        
+        <div class="cacao-grid" id="cacaoGrid">
+            <!-- Карточки загружаются через JavaScript -->
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Загружаем коллекцию какао...</p>
             </div>
         </div>
     </main>
 
-    <!-- МОДАЛЬНОЕ ОКНО ТОЛЬКО С ИНСТРУКЦИЕЙ -->
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div class="modal" id="cacaoModal">
         <div class="modal-content">
             <button class="close-modal" id="closeModal">
                 <i class="fas fa-times"></i>
             </button>
             <div class="modal-body" id="modalBody">
-                <!-- Только инструкция будет загружена -->
+                <!-- Контент загружается динамически -->
             </div>
         </div>
     </div>
 
     <!-- ПОДВАЛ -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h4>КОНТАКТЫ</h4>
-                    <p><i class="fas fa-phone"></i> +7 (925) 222-50-55</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>АДРЕС</h4>
-                    <p><i class="fas fa-map-marker-alt"></i> Троицкий бульвар, 6</p>
-                    <p class="address-detail">Троицк, Москва, 108840</p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>ЧАСЫ РАБОТЫ</h4>
-                    <p><i class="fas fa-clock"></i> с 9:00 до 21:00</p>
-                    <p class="hours-detail">ежедневно</p>
-                </div>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h4>КОНТАКТЫ</h4>
+                <p><i class="fas fa-phone"></i> +7 (925) 222-50-55</p>
             </div>
             
-            <div class="footer-bottom">
-                <p>CULT COFFEE SHOP КАКАО БАР © 2024</p>
+            <div class="footer-section">
+                <h4>АДРЕС</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Троицкий бульвар, 6</p>
+                <p class="address-detail">Троицк, Москва, 108840</p>
             </div>
+            
+            <div class="footer-section">
+                <h4>ЧАСЫ РАБОТЫ</h4>
+                <p><i class="fas fa-clock"></i> с 9:00 до 21:00</p>
+                <p class="hours-detail">ежедневно</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>CULT COFFEE SHOP КАКАО БАР © 2024</p>
         </div>
     </footer>
 

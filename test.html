@@ -1,14 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Тест</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТЕСТ: CULT COFFEE SHOP КАКАО БАР</title>
     <style>
-        body { background: #3C2A21; color: white; padding: 40px; }
-        h1 { color: #D5CEA3; }
+        /* БАЗОВЫЕ СТИЛИ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #3C2A21 0%, #1A120B 100%);
+            color: #E5E5CB;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(26, 18, 11, 0.9);
+            border-radius: 20px;
+            border: 3px solid #5D4037;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* ЗАГОЛОВОК */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #D5CEA3;
+        }
+        
+        h1 {
+            color: #D5CEA3;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            color: #B5A886;
+            font-size: 1.5rem;
+            font-weight: normal;
+        }
+        
+        /* ТЕСТОВЫЕ БЛОКИ */
+        .test-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: rgba(93, 64, 55, 0.3);
+            border-radius: 15px;
+            border-left: 5px solid;
+        }
+        
+        .test-success {
+            border-left-color: #4CAF50;
+        }
+        
+        .test-warning {
+            border-left-color: #FF9800;
+        }
+        
+        .test-error {
+            border-left-color: #F44336;
+        }
+        
+        h3 {
+            color: #D5CEA3;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3::before {
+            font-size: 1.8rem;
+        }
+        
+        .test-success h3::before { content: "✅"; }
+        .test-warning h3::before { content: "⚠️"; }
+        .test-error h3::before { content: "❌"; }
+        
+        /* СТАТУС */
+        .status {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .status-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status-error {
+            background: #F44336;
+            color: white;
+        }
+        
+        /* КАРТОЧКА КАКАО (тестовая) */
+        .test-card {
+            background: rgba(213, 206, 163, 0.1);
+            border: 2px solid #D5CEA3;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .test-card h4 {
+            color: #D5CEA3;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        /* ИНФОРМАЦИЯ */
+        .info-box {
+            background: rgba(213, 206, 163, 0.15);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px dashed #B5A886;
+        }
+        
+        .info-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #FFCC80;
+        }
+        
+        /* ФУТЕР */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #5D4037;
+            color: #B5A886;
+            font-size: 0.9rem;
+        }
+        
+        /* АДАПТИВ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>ТЕСТ: Сайт работает!</h1>
-    <p>Если видите этот текст, значит HTML и CSS работают.</p>
+    <div class="container">
+        <!-- ЗАГОЛОВОК -->
+        <div class="header">
+            <h1>CULT COFFEE SHOP</h1>
+            <h2>КАКАО БАР — ТЕСТОВАЯ СТРАНИЦА</h2>
+        </div>
+        
+        <!-- ТЕСТ 1: HTML И CSS -->
+        <div class="test-section test-success">
+            <h3>HTML и CSS</h3>
+            <p>Если вы видите эту страницу с тёмным фоном и бежевым текстом, значит HTML и CSS работают корректно.</p>
+            <span class="status status-success">РАБОТАЕТ</span>
+        </div>
+        
+        <!-- ТЕСТ 2: JAVASCRIPT -->
+        <div class="test-section" id="jsTest">
+            <h3>JavaScript</h3>
+            <p>Проверка выполнения JavaScript кода...</p>
+            <div id="jsStatus"></div>
+        </div>
+        
+        <!-- ТЕСТ 3: ДАННЫЕ (JSON) -->
+        <div class="test-section" id="jsonTest">
+            <h3>Данные (JSON)</h3>
+            <p>Проверка загрузки данных...</p>
+            <div id="jsonStatus"></div>
+        </div>
+        
+        <!-- ТЕСТ 4: ПРИМЕР КАРТОЧКИ -->
+        <div class="test-section test-success">
+            <h3>Пример карточки какао</h3>
+            <p>Так будет выглядеть карточка в основном сайте:</p>
+            
+            <div class="test-card">
+                <h4>ГОНДУРАС ASOPROPIB</h4>
+                <p><strong>Вкус:</strong> Сыр-косичка, орехи, ржаной хлеб</p>
+                <p><strong>Описание:</strong> Удивляющий, самодостаточный и очень необычный напиток</p>
+                <button style="
+                    background: #D5CEA3;
+                    color: #1A120B;
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-weight: bold;
+                    margin-top: 15px;
+                    cursor: pointer;
+                    width: 100%;
+                ">Инструкция по приготовлению</button>
+            </div>
+        </div>
+        
+        <!-- ИНФОРМАЦИЯ -->
+        <div class="info-box">
+            <h3>📋 Информация</h3>
+            <p><strong>Ссылка на тест:</strong> <code>https://llsaddyy.github.io/cacao-guide/test.html</code></p>
+            <p><strong>Основной сайт:</strong> <code>https://llsaddyy.github.io/cacao-guide/</code></p>
+            <p><strong>Цветовая схема:</strong> Коричневый (#3C2A21), бежевый (#E5E5CB), золотистый (#D5CEA3)</p>
+            <p><strong>Шрифты:</strong> Arial (основной), системные шрифты</p>
+        </div>
+        
+        <!-- ФУТЕР -->
+        <div class="footer">
+            <p>ТЕСТОВАЯ СТРАНИЦА | CULT COFFEE SHOP КАКАО БАР</p>
+            <p>Страница проверки работоспособности сайта</p>
+        </div>
+    </div>
+    
+    <script>
+        // ===== ТЕСТ JAVASCRIPT =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Тест 1: JavaScript
+            const jsTest = document.getElementById('jsTest');
+            const jsStatus = document.getElementById('jsStatus');
+            
+            jsTest.className = 'test-section test-success';
+            jsStatus.innerHTML = `
+                <p>✅ JavaScript выполняется корректно</p>
+                <span class="status status-success">РАБОТАЕТ</span>
+            `;
+            
+            // Тест 2: JSON данные
+            const jsonTest = document.getElementById('jsonTest');
+            const jsonStatus = document.getElementById('jsonStatus');
+            
+            // Пытаемся загрузить data.json
+            fetch('data.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Файл не найден');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    jsonTest.className = 'test-section test-success';
+                    jsonStatus.innerHTML = `
+                        <p>✅ Данные загружены успешно</p>
+                        <p>Найдено какао: ${data.cacaos ? data.cacaos.length : 0}</p>
+                        <span class="status status-success">РАБОТАЕТ</span>
+                    `;
+                })
+                .catch(error => {
+                    jsonTest.className = 'test-section test-error';
+                    jsonStatus.innerHTML = `
+                        <p>❌ Ошибка загрузки данных: ${error.message}</p>
+                        <p>Убедитесь, что файл <code>data.json</code> существует в репозитории</p>
+                        <span class="status status-error">ОШИБКА</span>
+                    `;
+                });
+            
+            // Дополнительная информация в консоли
+            console.log('=== ТЕСТ САЙТА CULT COFFEE SHOP ===');
+            console.log('1. HTML/CSS: ✓ Работает');
+            console.log('2. JavaScript: ✓ Работает');
+            console.log('3. Цветовая схема: Тёмный коричневый (#3C2A21)');
+            console.log('4. Проверка завершена в ' + new Date().toLocaleTimeString());
+        });
+    </script>
 </body>
 </html>

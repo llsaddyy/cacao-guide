@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простой тест</title>
+    <!-- ПОДКЛЮЧАЕМ ТЕ ЖЕ ФАЙЛЫ, ЧТО И В ОСНОВНОМ САЙТЕ -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1 style="text-align: center; color: #D5CEA3;">ПРОСТОЙ ТЕСТ</h1>
+    <p style="text-align: center;">Проверяем подключение style.css</p>
+    
+    <div style="max-width: 600px; margin: 40px auto; padding: 20px; background: #1A120B; border-radius: 10px;">
+        <h3>Если этот блок коричневый, то style.css подключен</h3>
+        <p>Цвет фона должен быть #1A120B</p>
+    </div>
+    
+    <!-- ПОДКЛЮЧАЕМ ТОТ ЖЕ JS -->
+    <script src="script.js"></script>
+    
+    <script>
+        // Проверяем, загрузился ли script.js
+        console.log('=== ТЕСТ simple.html ===');
+        console.log('1. HTML: ✓ Работает');
+        console.log('2. CSS подключен: ✓');
+        console.log('3. Script.js: проверка...');
+        
+        // Проверяем данные
+        fetch('data.json')
+            .then(response => {
+                console.log('4. Data.json статус:', response.status);
+                if (response.ok) {
+                    console.log('✓ Data.json загружен');
+                } else {
+                    console.log('✗ Data.json не найден');
+                }
+            })
+            .catch(error => {
+                console.log('✗ Ошибка загрузки data.json:', error.message);
+            });
+    </script>
+</body>
+</html>

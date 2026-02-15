@@ -62,7 +62,7 @@ function displayCacaos(cacaos) {
         header.className = 'group-header';
         header.innerHTML = `
             <h3 class="group-title">ГОРЯЧИЙ ШОКОЛАД</h3>
-            <div class="group-count">${hotChocolate.length} сортов</div>
+            <div class="group-count">${hotChocolate.length} сорт</div>
         `;
         container.appendChild(header);
         

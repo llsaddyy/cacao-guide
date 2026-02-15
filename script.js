@@ -62,7 +62,7 @@ function displayCacaos(cacaos) {
         header.className = 'group-header';
         header.innerHTML = `
             <h3 class="group-title">ГОРЯЧИЙ ШОКОЛАД</h3>
-            <div class="group-count">${hotChocolate.length} сорт</div>
+            <div class="group-count">${hotChocolate.length} сортов</div>
         `;
         container.appendChild(header);
         
@@ -251,10 +251,32 @@ function setupModal() {
     });
 }
 
-// ===== СЧЁТЧИК =====
+// ===== СЧЁТЧИК С ПРАВИЛЬНЫМ СКЛОНЕНИЕМ =====
 function updateCounter(count) {
     const counter = document.getElementById('catalogCounter');
     if (counter) {
-        counter.textContent = `${count} сортов`;
+        // Склонение для слова "сорт"
+        let word;
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+        
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+            word = 'сортов';
+        } else {
+            switch (lastDigit) {
+                case 1:
+                    word = 'сорт';
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    word = 'сорта';
+                    break;
+                default:
+                    word = 'сортов';
+            }
+        }
+        
+        counter.textContent = `${count} ${word}`;
     }
 }
